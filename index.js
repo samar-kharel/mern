@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
-const BACKEND_PORT= 3000;
-app.listen(BACKEND_PORT);
+app.use(express.json());
+const connectDb = require('./database/db')
+const PORT= 3000;
+app.listen(PORT, () => {
+    console.log('Server is running on port ${PORT}');
+    });
+
+connectDb();
 // app.get('/user',(req,res)=> {
 //     res.json({name:'Samar'})
 // });
