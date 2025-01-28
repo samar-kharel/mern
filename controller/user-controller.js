@@ -6,6 +6,12 @@ const User = require('../models/user-model')
 const login = async(req, res) => {
     const user_name = req.body.username;
     const pass_word = req.body.password;
+    const Email = req.body.email;
+
+//validation for username and password
+if (!user_name || !pass_word) {
+    return res.status(400).send("Pass the username and password.")
+}
 
 const existingUser= await User.findOne({username: user_name});
 console.log("existing user = ",existingUser)
@@ -14,7 +20,13 @@ if(!existingUser){
     return res.status(400).send("Username does not exist in the server.")
 
 }
+const existingEmail= await User.findOne({email: Email});
+console.log("existing email = ",existingEmail)
 
+if(!existingEmail){
+    return res.status(400).send("Email does not exist in the server.")
+
+}
     
 
 hashedPassword = existingUser.password
@@ -26,6 +38,8 @@ if (matched){
 else{
     return res.status(400).send("Password error.")
 }
+
+
 
 }
 
@@ -66,6 +80,11 @@ const signup = async(req, res) => {
     const phone_number = req.body.phone;
     const Email = req.body.email;
 
+    //validation for username and password
+    if (!user_name || !pass_word || !Email) {
+    return res.status(400).send("Pass the username and password.")
+    }
+
     const existingUser= await User.findOne({username: user_name});
     console.log("existing user = ",existingUser)
 
@@ -78,8 +97,8 @@ const signup = async(req, res) => {
     console.log("existing email = ",existingEmail)
 
     if(existingEmail){
-        console.log("User already exists");
-        return res.status(400).send("User already exists")
+        console.log("Email already exists");
+        return res.status(400).send("Email already exists")
     }
 
     const saltrounds = 10;
@@ -109,14 +128,23 @@ const signup = async(req, res) => {
     // }
 
 
-const profile = (req, res) =>
+const profile = async(req, res) =>
         {
         try{
-            res.status(200).json({
-                name : "SAMAR",
-                age : "19"
+            const username = req.params.username;
+            //check if the username exists in the database
+            const existingUser = await User.findOne({username: username}).select('username phone');
+            if(!existingUser){
+                return res.status(400).send("User not found");
+            }
+            res.status(200).json(existingUser);
+        
+            // res.status(200).json({
+            //     username : "Samar12",
+            //     password: "sam12",
+            //     phone : "9803453251"
 
-            });
+            // });
         }
         catch(error){
             res.status(500).json({
@@ -128,4 +156,59 @@ const profile = (req, res) =>
         }
 
 
-module.exports = {signup, login, profile,listUsers};
+
+
+
+//delete user api
+const deleteuser = async(req,res) => {
+    const username = req.params.username;
+    const existingUser = await User.findOne({ username: username});
+    if (!existingUser){
+        return res.status(400).send("User not found");
+    }
+    else{
+        await User.deleteOne(existingUser)
+        return res.status(204).send("User has been deleted")
+    }
+}
+
+//edit api
+const edit_profile = async(req,res) => {
+    const username = req.params.username;
+    const Email = req.body.email;
+    const phone_number = req.body.phone;
+
+    if (!Email && !phone_number){
+        return res.send("Please enter an email address or phone number.")
+    }
+
+    const existingUser = await User.findOne({ username: username});
+    if (!existingUser){
+        return res.status(400).send("User not found");
+    }
+    else{
+        console.log("phone number = ", phone_number)
+        if (phone_number){
+        existingUser.phone = req.body.phone;
+        }
+        if (Email){
+            console.log(Email)
+            const existingEmail= await User.findOne({email: Email});
+            if (existingEmail) {
+                return res.send("Email already exists.")
+            }
+            else{
+                existingUser.email = req.body.email;
+
+            }
+    }
+    }
+
+    await existingUser.save();
+    return res.send("User updated succesfully.")
+}
+
+
+
+
+module.exports = {signup, login, profile,listUsers,deleteuser,edit_profile};
