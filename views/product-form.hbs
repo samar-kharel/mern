@@ -1,7 +1,150 @@
-<form>
+{{!-- <form action = "/product/submit/" method="post">
     Name: <input type "text" name="name" placeholder="Name">
     Description: <input type "text" name="description" placeholder="Description">
+    Price: <input type "text" name="price" placeholder="Price">
+    Stock Quantity: <input type "text" name="stockquantity" placeholder="Stock Quantity">
+    Category: <input type "text" name="category" placeholder="Category">
+    Colour: <input type "text" name="colour" placeholder="Colour">
     <button type="submit"> Add Product</button>
 
 
-</form>
+</form> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff6a00, #ee0979); /* Gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container h2 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container input:focus {
+            border-color: #ff6a00;
+            background-color: #fff;
+            transform: scale(1.05);
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #ff6a00, #ee0979);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .form-container button:hover {
+            background: linear-gradient(45deg, #ee0979, #ff6a00);
+            transform: translateY(-5px);
+        }
+
+        .form-container button:focus {
+            outline: none;
+        }
+
+        .form-container input:focus,
+        .form-container button:focus {
+            outline: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Add New Product</h2>
+        <form action="/product/add-products/" method="post">
+            <label for="name">Product Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter product name">
+
+            <label for="description">Product Description</label>
+            <input type="text" id="description" name="description" placeholder="Enter product description">
+
+            <label for="price">Price</label>
+            <input type="text" id="price" name="price" placeholder="Enter product price">
+
+            <label for="stockquantity">Stock Quantity</label>
+            <input type="text" id="stockquantity" name="stockquantity" placeholder="Enter stock quantity">
+
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category" placeholder="Enter product category">
+
+            <label for="colour">Colour</label>
+            <input type="text" id="colour" name="colour" placeholder="Enter product colour">
+
+            <button type="submit">Add Product</button>
+        </form>
+    <h3> {{message}} </h3>
+    </div>
+    
+
+</body>
+</html>
+

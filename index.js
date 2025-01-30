@@ -2,6 +2,7 @@ const express = require('express');
 const Product = require('./models/product-model');
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended:true }));
 app.use("/uploads",express.static("uploads"))
 const connectDb = require('./database/db')
 const PORT= 3000;

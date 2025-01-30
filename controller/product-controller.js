@@ -103,8 +103,71 @@ const deleteproduct = async(req,res) => {
         return res.send(req.file);
         
     }
+
+//add products
+const addproducts = async(req,res) => {
+
+    if(req.method === "GET") {
+      res.render('product-form');
+    } else if (req.method === "POST") {
+      const data = req.body;
+      let message = null;
+        const Name = data.name;
+        const Price = data.price;
+        const Description =  data.description;
+        const stock_quantity = data.stockquantity;
+        const Category = data.category;
+        const Colour = data.colour;
+         if (!Name || !Price || !Description || !stock_quantity || !Category || !Colour) {
+          message = "Pass the missing value"
+          }
+          else{
+                const product = new Product({
+                    name: data.name,
+                    price: data.price,
+                    description : data.description,
+                    stockquantity : data.stockquantity,
+                    category: data.category,
+                    colour: data.colour
+                });
+                await product.save();
+                message = "Product added succesfully"
+
+          }
+          res.render('product-form', {message: message});
+
+    
+    }
+
+  }
+
+    const productlist = async(req,res) => {
+    const allProducts = await Product.find().select('name price description stockquantity category colour picture')
+    const base_url = "http://localhost:3000/"
+    
+    const newProduct = allProducts.map(val => {
+        val.picture = base_url + val.picture;
+        return val;  
+    });
+    
+    const data = {
+        products: newProduct    
+    }
+    
+
+    console.log(data)
+    res.render('product-list',data);
+};
+
+const deleteproducts = async(req,res) => {
+    const id = req.params.id;
+    console.log("id= ",id);
+    const existingId= await Product.findOne({"_id":id});
+            await Product.deleteOne(existingId)
+    res.redirect("/product/product-list")
+    // return res.send("<h1> Product Deleted </h1>");
+}
     
     
     
-    
-module.exports = {products,newproduct,listproduct,deleteproduct,editproduct,upload_image};
+module.exports = {products,newproduct,listproduct,deleteproduct,editproduct,upload_image,addproducts,productlist,deleteproducts};

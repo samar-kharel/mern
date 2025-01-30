@@ -105,6 +105,11 @@
             <div class="description">{{description}}</div>
             <div class="category">{{category}}</div>
             <div class="colour">{{colour}}</div>
+            <form action="/product/deleteproducts/{{_id}}" method="post">
+             <button type = "submit"> Delete </button>
+
+            </form>
+            
         </div>
     </div>
     {{/each}}
