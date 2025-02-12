@@ -93,12 +93,28 @@
 
 <header>
     <h1>Samar's store</h1>
+    <h1> In cart: {{cart.quantity}} </h1>
+    <a href="/product/add-products">Add Product</a>
+    <form action = "/product/product-list" method = "GET"> 
+                <input type = "search" id="query" name="search" placeholder="Search...">
+                <button> Search </button>
+            </form>
+    
 </header>
+
+{{!-- <form id = "form"> 
+                <input type = "search" id="query" name="q" placeholder="Search...">
+                <button> Search </button>
+            </form> --}}
 
 <div class="container">
     {{#each products}}
     <div class="products">
         <div class="product">
+            {{!-- <form id = "form"> 
+                <input type = "search" id="query" name="q" placeholder="Search...">
+                <button> Search </button>
+            </form> --}}
             <img src="{{picture}}" alt="Product 1">
             <h3>{{name}}</h3>
             <div class="price">{{price}}</div>
@@ -107,7 +123,12 @@
             <div class="colour">{{colour}}</div>
             <form action="/product/deleteproducts/{{_id}}" method="post">
              <button type = "submit"> Delete </button>
-
+            </form>
+            <form action = "/product/editform/{{_id}}" method="get">
+             <button type = "submit"> Edit Product </button>
+            </form>
+            <form action = "/product/add-to-cart/{{_id}}" method="post">
+            <button type = "submit"> Add to Cart</button>
             </form>
             
         </div>
@@ -118,7 +139,7 @@
 </div>
 
 <div class="footer">
-    <p>&copy; 2025 Simple E-Commerce Store. All Rights Reserved.</p>
+    <p>&copy; 2025 Samar's E-Commerce Store. All Rights Reserved.</p>
 </div>
 
 </body>

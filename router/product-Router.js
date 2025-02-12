@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+// const multer = require('multer');
 const productController = require('../controller/product-controller');
 const Product = require('../models/product-model');
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname)
-    }
-  })
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, 'uploads/')
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, file.originalname)
+//     }
+//   })
   
-const upload = multer({ storage: storage })
+// const upload = multer({ storage: storage })
 
 
 // const upload = multer({ dest: 'uploads/'})
@@ -21,10 +21,13 @@ router.post("/newproduct",productController.newproduct);
 router.get("/listproduct",productController.listproduct);
 router.delete("/deleteproduct/:id",productController.deleteproduct);
 router.put("/editproduct/:id",productController.editproduct);
-router.post("/upload_image/:id",upload.single('picture'),productController.upload_image);
+// router.post("/upload_image/:id",productController.upload.single('image'),productController.upload_image);
 router.all("/add-products",productController.addproducts);
 router.get("/product-list",productController.productlist);
 router.post("/deleteproducts/:id",productController.deleteproducts);
+// router.post("/editproducts/:id",productController.editproducts);
+router.all("/editform/:id",productController.editform);
+router.all("/add-to-cart/:id",productController.addToCart);
 
 
 module.exports = router;
