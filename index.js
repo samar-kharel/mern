@@ -1,16 +1,20 @@
 const express = require('express');
-const Product = require('./models/product-model');
+const cors = require('cors');
 const app = express();
+const Product = require('./models/product-model');
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 app.use("/uploads",express.static("uploads"))
 const connectDb = require('./database/db')
 const PORT= 3000;
+
 app.listen(PORT, () => {
     console.log('Server is running on port ${PORT}');
     });
 
 connectDb();
+
 // app.get('/user',(req,res)=> {
 //     res.json({name:'Samar'})
 // });
